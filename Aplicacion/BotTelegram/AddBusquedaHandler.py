@@ -112,9 +112,6 @@ class AddBusquedaHandler():
         tiene_cuenta = (usuario.email != "None" and usuario.password != "None")
 
         if(tiene_cuenta):
-            print("que hago yo aqui")
-            print(type(usuario.email))
-            print(type(usuario.password))
             keyboard= ReplyKeyboardMarkup([["Si"],["No"]], one_time_keyboard=True)
             texto = "La autocomparación hace que se estudien todos los anuncios nuevos, y solo se te avise de los anuncios que se consideren chollos. Si no la activas, se te avisarán de todos los anuncios. ¿Deseas activar la autocomparación?"
             update.message.reply_text(texto,reply_markup=keyboard)
