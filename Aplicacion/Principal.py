@@ -5,7 +5,7 @@ from Aplicacion.BotTelegram.BorrarCuentaHandler import BorrarCuentaHandler
 from Aplicacion.BotTelegram.RegistroHandler import RegistroHandler
 from Aplicacion.BotTelegram.WallascraperBot import Wallascraper
 
-TOKEN = "1365812866:AAECLY6QKTMBbIkudhvdvyRujbjYj9s4HNE"
+TOKEN = "AÑADE TU TOKEN AQUI"
 
 if __name__ == "__main__":
     # Creo handlers de conversaciones
@@ -23,5 +23,5 @@ if __name__ == "__main__":
     bot.addHandler(borrarBusquedaHandler.handler)
     bot.addHandler(borrarCuentaHandler.handler)
 
-    # Lo pongo a correr en IDLE 
+    # Lo pongo a correr en IDLE
     bot.run()
