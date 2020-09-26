@@ -124,26 +124,28 @@ class ScraperWallapop:
     # Gestión de búsquedas
     def scrapearBusquedas(self, lista_busquedas_usuario):
         gestorBBDD = GestorBBDD()
+        try:
+            for busqueda in lista_busquedas_usuario:
+                # Verifico si es la primera vez que se realiza la búsqueda
+                articulos = gestorBBDD.recuperarArticulosBusqueda(busqueda.id_busqueda)
+                no_hay_articulos = len(articulos) == 0
 
-        for busqueda in lista_busquedas_usuario:
-            # Verifico si es la primera vez que se realiza la búsqueda
-            articulos = gestorBBDD.recuperarArticulosBusqueda(busqueda.id_busqueda)
-            no_hay_articulos = len(articulos) == 0
+                # Si es la primera vez, añado artículos de una búsqueda inicial, para no notificar de los anuncios ya existentes.
+                if(no_hay_articulos):
+                    print(f"[SCRAPER] La búsqueda {busqueda.id_busqueda} se lanza por primera vez. Scrapeo artículos iniciales.  ")
+                    self.scrapeoInicial(busqueda)
 
-            # Si es la primera vez, añado artículos de una búsqueda inicial, para no notificar de los anuncios ya existentes.
-            if(no_hay_articulos):
-                print(f"[SCRAPER] La búsqueda {busqueda.id_busqueda} se lanza por primera vez. Scrapeo artículos iniciales.  ")
-                self.scrapeoInicial(busqueda)
+                if(self.tiene_cuenta):
+                    self.scrapearBusqueda(busqueda)
+                else:
+                    self.scrapearBusquedaSinCuenta(busqueda)
 
-            if(self.tiene_cuenta):
-                self.scrapearBusqueda(busqueda)
-            else:
-                self.scrapearBusquedaSinCuenta(busqueda)
-
-        print(f"[SCRAPER] Scrapeo de todas las búsquedas del usuario {self.usuario.id_telegram} finalizado.")
-
-        # Cierro el driver y con ello el navegador.
-        self.driver.quit()
+            print(f"[SCRAPER] Scrapeo de todas las búsquedas del usuario {self.usuario.id_telegram} finalizado.")
+        except Exception as e:
+            print(f"[SCRAPER] Error scrapeando las búsquedas de {self.usuario.id_telegram}: {e}. Se aborta el scrapeo...")
+        finally:
+            # Cierro el driver y con ello el navegador.
+            self.driver.quit()
 
     def scrapearBusqueda(self, busqueda):
 
