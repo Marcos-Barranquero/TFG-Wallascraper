@@ -144,6 +144,8 @@ class ScraperWallapop:
         except Exception as e:
             print(f"[SCRAPER] Error scrapeando las búsquedas de {self.usuario.id_telegram}: {e}. Se aborta el scrapeo...")
         finally:
+            self.notificador.notificarFinScrapeo(self.usuario.id_telegram)
+
             # Cierro el driver y con ello el navegador.
             self.driver.quit()
 
